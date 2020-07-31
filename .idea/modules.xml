@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../SandBoxApp/.idea/modules/SandboxApp.iml" filepath="$PROJECT_DIR$/../SandBoxApp/.idea/modules/SandboxApp.iml" group="SandboxApp" />
+      <module fileurl="file://$PROJECT_DIR$/../SandBoxApp/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/../SandBoxApp/.idea/modules/app/app.iml" group="SandboxApp/app" />
+    </modules>
+  </component>
+</project>

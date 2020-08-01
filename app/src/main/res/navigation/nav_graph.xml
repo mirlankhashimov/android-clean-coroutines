@@ -3,43 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_album">
+    app:startDestination="@id/screen_home">
     <fragment
-        android:id="@+id/fragment_album"
-        android:name="com.mirlan.sandbox.presentation.album.AlbumFragment"
-        tools:layout="@layout/fragment_album">
+        android:id="@+id/screen_home"
+        android:name="com.mirlan.sandbox.presentation.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_album_screen_to_photo_screen"
-            app:destination="@id/screen_photo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/screen_photo"
-        android:name="com.mirlan.sandbox.presentation.photos.PhotosFragment"
-        tools:layout="@layout/fragment_photo">
-        <action
-            android:id="@+id/action_photo_screen_to_detail_screen"
-            app:destination="@+id/screen_detail"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="albumId"
-            android:defaultValue="0"
-            app:argType="integer"/>
+            android:id="@+id/action_home_screen_to_detail_screen"
+            app:destination="@id/screen_detail"
+             />
+
     </fragment>
     <fragment
         android:id="@+id/screen_detail"
-        android:name="com.mirlan.sandbox.presentation.photos.detail.PhotoFragment"
+        android:name="com.mirlan.sandbox.presentation.home.detail.DetailFragment"
         tools:layout="@layout/fragment_detail">
         <argument
-            android:name="imageId"
+            android:name="recommendationId"
             android:defaultValue="0"
-            app:argType="string"/>
+            app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/screen_search"
+        android:name="com.mirlan.sandbox.presentation.search.SearchFragment"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/screen_profile"
+        android:name="com.mirlan.sandbox.presentation.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+
 </navigation>

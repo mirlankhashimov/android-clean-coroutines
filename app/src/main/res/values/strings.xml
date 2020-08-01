@@ -18,4 +18,8 @@
     <string name="proximity_title">Proximity Sensor</string>
     <string name="multicall_title">Multi-request</string>
     <string name="websocket_title">Websocket echo</string>
+    <string name="menu_search">search</string>
+    <string name="menu_home">home</string>
+    <string name="menu_profile">profile</string>
+    <string name="detail">Detail</string>
 </resources>

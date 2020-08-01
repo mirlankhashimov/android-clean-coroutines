@@ -3,6 +3,7 @@ package com.mirlan.sandbox.utils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.DiffUtil
 
 fun ViewGroup.inflate(layoutRes: Int): View {

@@ -1,16 +1,10 @@
 package com.mirlan.sandbox.domain.repo
 
-import androidx.lifecycle.LiveData
-import com.mirlan.sandbox.domain.datasource.album.AlbumRemoteDataSource
-import com.mirlan.sandbox.domain.entity.Album
-import kotlinx.coroutines.CoroutineScope
+import com.mirlan.sandbox.data.service.BaseResponse
+import com.mirlan.sandbox.domain.entity.Data
+import com.mirlan.sandbox.domain.entity.Salon
 
-class SalonsRepository(
-    private val remoteDataSource: AlbumRemoteDataSource
-) {
-
-   // fun observeAlbums(connectivityAvailable: Boolean, coroutineScope: CoroutineScope) =
-       // if (connectivityAvailable)
-            //observeRemoteAlbums(coroutineScope)
-
+interface SalonsRepository {
+    suspend fun getSalons(): BaseResponse<Data>
+    suspend fun getSalon(id: Int): BaseResponse<Salon>
 }

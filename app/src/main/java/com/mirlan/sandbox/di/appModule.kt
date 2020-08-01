@@ -2,13 +2,12 @@ package com.mirlan.sandbox.di
 
 import com.mirlan.sandbox.BuildConfig
 import com.mirlan.sandbox.domain.repo.SalonsRepository
-import com.mirlan.sandbox.domain.repo.PhotoRepository
-import com.mirlan.sandbox.presentation.album.AlbumViewModel
-import com.mirlan.sandbox.presentation.photos.PhotosViewModel
+import com.mirlan.sandbox.presentation.home.HomeViewModel
 import com.google.gson.GsonBuilder
+import com.mirlan.sandbox.data.impl.SalonsRepositoryImpl
 import com.mirlan.sandbox.data.service.Api
-import com.mirlan.sandbox.domain.datasource.album.AlbumRemoteDataSource
-import com.mirlan.sandbox.domain.datasource.photos.PhotoRemoteDataSource
+import com.mirlan.sandbox.domain.interactor.GetSalonUseCase
+import com.mirlan.sandbox.domain.interactor.GetSalonsUseCase
 import com.mirlan.sandbox.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,7 +19,7 @@ import retrofit2.create
 
 val appModule = module {
     single { GsonBuilder().create() }
-    single {
+    factory {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level =
@@ -35,21 +34,9 @@ val appModule = module {
             .addConverterFactory(GsonConverterFactory.create(get()))
             .build()
     }
-
     single { get<Retrofit>().create<Api>() }
-    single { SalonsRepository(get()) }
-    single { PhotoRepository(get()) }
-    single {
-        AlbumRemoteDataSource(
-            get()
-        )
-    }
-    single { PhotoRemoteDataSource(
-            get()
-        )
-    }
-    viewModel { PhotosViewModel(get()) }
-    viewModel { AlbumViewModel(get()) }
-
+    factory { GetSalonsUseCase(repository = get()) }
+    factory { GetSalonUseCase(repository = get()) }
+    single<SalonsRepository> { SalonsRepositoryImpl(api = get()) }
+    viewModel { HomeViewModel(getSalonsUseCase = get(), getSalonUseCase = get()) }
 }
-

@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/screen_home"
+        android:icon="@drawable/ic_home_24"
+        android:orderInCategory="1"
+        android:title="@string/menu_home"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/screen_search"
+        android:icon="@drawable/ic_search_24"
+        android:orderInCategory="2"
+        android:title="@string/menu_search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/screen_profile"
+        android:icon="@drawable/ic_profile_24"
+        android:orderInCategory="3"
+        android:title="@string/menu_profile"
+        app:showAsAction="ifRoom" />
+</menu>

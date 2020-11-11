@@ -1,10 +1,12 @@
 package com.mirlan.sandbox.utils
 
+import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.DiffUtil
+import com.mirlan.sandbox.databinding.ItemRecommendationListBinding
 
 fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)

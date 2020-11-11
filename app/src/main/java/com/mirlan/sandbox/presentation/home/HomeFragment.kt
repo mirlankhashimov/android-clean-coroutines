@@ -1,8 +1,14 @@
 package com.mirlan.sandbox.presentation.home
 
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import com.google.android.material.appbar.AppBarLayout
 import com.mirlan.sandbox.R
 import com.mirlan.sandbox.core.BaseFragment
 import com.mirlan.sandbox.data.vo.Status
@@ -11,7 +17,9 @@ import com.mirlan.sandbox.utils.hide
 import com.mirlan.sandbox.utils.observe
 import com.mirlan.sandbox.utils.show
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.progressBar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by sharedViewModel()
@@ -25,6 +33,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         const val RECOMMENDATION_ID = "recommendationId"
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         album_rv.adapter = albumAdapter

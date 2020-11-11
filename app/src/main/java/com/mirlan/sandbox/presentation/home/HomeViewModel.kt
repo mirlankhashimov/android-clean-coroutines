@@ -9,8 +9,6 @@ import com.mirlan.sandbox.domain.interactor.GetSalonUseCase
 import com.mirlan.sandbox.domain.interactor.GetSalonsUseCase
 import kotlinx.coroutines.launch
 
-const val SERVICE_PAGE_SIZE = 5
-
 class HomeViewModel(
     private val getSalonsUseCase: GetSalonsUseCase,
     private val getSalonUseCase: GetSalonUseCase
@@ -29,14 +27,14 @@ class HomeViewModel(
     private fun load() {
         _salons.value = Resource.loading()
         viewModelScope.launch {
-            _salons.value = Resource.success(getSalonsUseCase.getSalons())
+            //_salons.value = Resource.success(getSalonsUseCase.getSalons())
         }
     }
 
     fun loadSalon(id: Int) {
         _salon.value = Resource.loading()
         viewModelScope.launch {
-            _salon.value = Resource.success(getSalonUseCase.getSalon(id))
+            //_salon.value = Resource.success(getSalonUseCase.getSalon(id))
         }
     }
 

@@ -20,10 +20,7 @@ import com.mirlan.sandbox.databinding.FragmentDetailBinding
 import com.mirlan.sandbox.domain.entity.Salon
 import com.mirlan.sandbox.presentation.home.HomeFragment.Companion.RECOMMENDATION_ID
 import com.mirlan.sandbox.presentation.home.HomeViewModel
-import com.mirlan.sandbox.utils.hide
-import com.mirlan.sandbox.utils.link
-import com.mirlan.sandbox.utils.show
-import com.mirlan.sandbox.utils.viewBinding
+import com.mirlan.sandbox.utils.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class DetailFragment : BaseFragment(R.layout.fragment_detail) {
@@ -50,7 +47,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     }
 
     private fun observeSalon() {
-        viewModel.salon.observe(viewLifecycleOwner) {
+        observe(viewModel.salon) {
             when (it.status) {
                 Status.LOADING -> binding.progressBar.show()
                 Status.SUCCESS -> {

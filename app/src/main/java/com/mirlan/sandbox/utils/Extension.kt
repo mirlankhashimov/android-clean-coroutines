@@ -4,6 +4,9 @@ import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.DiffUtil
 import com.mirlan.sandbox.databinding.ItemRecommendationListBinding
@@ -18,4 +21,7 @@ fun <T> diffItemCallback(
 ) = object : DiffUtil.ItemCallback<T>() {
     override fun areItemsTheSame(oldItem: T, newItem: T) = itemsSame(Pair(oldItem, newItem))
     override fun areContentsTheSame(oldItem: T, newItem: T) = contentsSame(Pair(oldItem, newItem))
+}
+fun <T> Fragment.observe(liveData: LiveData<T>, block: (T) -> Unit) {
+    liveData.observe(viewLifecycleOwner, Observer(block))
 }

@@ -9,8 +9,9 @@ import com.mirlan.sandbox.databinding.ItemMasterListBinding
 import com.mirlan.sandbox.domain.entity.Master
 import com.mirlan.sandbox.utils.Constants.IMG_BASE_URL
 import com.mirlan.sandbox.utils.diffItemCallback
+import com.mirlan.sandbox.utils.inflate
 
-class MasterAdapter() : ListAdapter<Master, MasterAdapter.ViewHolder>(
+class MasterAdapter : ListAdapter<Master, MasterAdapter.ViewHolder>(
     diffItemCallback { it.first == it.second }
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

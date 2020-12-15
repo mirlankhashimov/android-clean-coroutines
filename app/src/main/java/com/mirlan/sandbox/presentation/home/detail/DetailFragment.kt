@@ -1,6 +1,5 @@
 package com.mirlan.sandbox.presentation.home.detail
 
-import GalleryAdapter
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff

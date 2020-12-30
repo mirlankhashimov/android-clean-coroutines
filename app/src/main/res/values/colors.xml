@@ -14,4 +14,7 @@
     <color name="blue_grey_200">#ffb0bec5</color>
     <color name="blue_grey_500">#ff607d8b</color>
     <color name="blue_grey_700">#ff455a64</color>
+
+    <color name="navigation_color">#007B82</color>
+    <color name="navigation_selected_color">#FFCA05</color>
 </resources>

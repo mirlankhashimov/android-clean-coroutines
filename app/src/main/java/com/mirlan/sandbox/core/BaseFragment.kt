@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-abstract class BaseFragment(@LayoutRes val layoutRes: Int) : BottomSheetDialogFragment() {
+abstract class BaseFragment(@LayoutRes val layoutRes: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -21,4 +22,6 @@ abstract class BaseFragment(@LayoutRes val layoutRes: Int) : BottomSheetDialogFr
             Navigation.findNavController(_view).navigate(action, bundle)
         }
     }
+
+    abstract fun onBackPressed()
 }

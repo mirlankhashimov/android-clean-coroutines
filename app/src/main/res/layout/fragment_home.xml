@@ -18,10 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:collapsedTitleTextAppearance="@style/Toolbar.TitleTextCollapsed"
             app:contentScrim="@android:color/white"
             app:expandedTitleTextAppearance="@style/Toolbar.TitleTextExpanded"
-            app:collapsedTitleTextAppearance="@style/Toolbar.TitleTextCollapsed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:title="toolbar">
 
             <androidx.appcompat.widget.Toolbar
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/Theme.AppCompat.Light"/>
+                app:popupTheme="@style/Theme.AppCompat.Light" />
 
             <ImageView
                 android:id="@+id/image"
@@ -47,6 +47,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="asdkfalfd"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <ProgressBar

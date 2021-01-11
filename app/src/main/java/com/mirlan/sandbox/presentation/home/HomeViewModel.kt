@@ -1,6 +1,7 @@
 package com.mirlan.sandbox.presentation.home
 
 import androidx.lifecycle.*
+import com.mirlan.sandbox.core.BaseViewModel
 import com.mirlan.sandbox.data.service.BaseResponse
 import com.mirlan.sandbox.data.vo.Resource
 import com.mirlan.sandbox.domain.entity.Data
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val getSalonsUseCase: GetSalonsUseCase,
     private val getSalonUseCase: GetSalonUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _salons = MutableLiveData<Resource<BaseResponse<Data>>>()
     val salons: LiveData<Resource<BaseResponse<Data>>> = _salons
@@ -25,7 +26,7 @@ class HomeViewModel(
     }
 
     private fun load() {
-        _salons.value = Resource.loading()
+        //_salons.value = Resource.loading()
         viewModelScope.launch {
             //_salons.value = Resource.success(getSalonsUseCase.getSalons())
         }
@@ -36,6 +37,9 @@ class HomeViewModel(
         viewModelScope.launch {
             //_salon.value = Resource.success(getSalonUseCase.getSalon(id))
         }
+    }
+    fun openDetail(){
+        router.navigateTo(screens.detail())
     }
 
 }

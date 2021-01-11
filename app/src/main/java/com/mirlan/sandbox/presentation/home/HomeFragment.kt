@@ -1,33 +1,35 @@
 package com.mirlan.sandbox.presentation.home
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import com.google.android.material.appbar.AppBarLayout
+import androidx.fragment.app.Fragment
 import com.mirlan.sandbox.R
 import com.mirlan.sandbox.core.BaseFragment
 import com.mirlan.sandbox.data.vo.Status
+import com.mirlan.sandbox.databinding.FragmentHomeBinding
 import com.mirlan.sandbox.domain.entity.RecommendedFirm
-import com.mirlan.sandbox.utils.hide
-import com.mirlan.sandbox.utils.observe
-import com.mirlan.sandbox.utils.show
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.mirlan.sandbox.utils.*
 import kotlinx.android.synthetic.main.fragment_home.progressBar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
+import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
+
+    object HomeScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment? {
+            return HomeFragment()
+        }
+    }
+
     private val viewModel: HomeViewModel by sharedViewModel()
     private val albumAdapter by lazy {
         RecommendationAdapter(
             this::onSelectAlbum
         )
     }
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     companion object {
         const val RECOMMENDATION_ID = "recommendationId"
@@ -36,7 +38,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        album_rv.adapter = albumAdapter
+        binding.albumRv.adapter = albumAdapter
         observe(viewModel.salons) { response ->
             when (response.status) {
                 Status.LOADING -> progressBar.show()
@@ -47,10 +49,17 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 else -> progressBar.hide()
             }
         }
+        binding.button.setSafeOnClickListener {
+            viewModel.openDetail()
+        }
+
     }
 
     private fun onSelectAlbum(recommendedFirm: RecommendedFirm) {
-        val bundle = bundleOf(RECOMMENDATION_ID to recommendedFirm.id)
-        navigate(R.id.action_home_screen_to_detail_screen, bundle)
+        viewModel.openDetail()
+    }
+
+    override fun onBackPressed() {
+        TODO("Not yet implemented")
     }
 }

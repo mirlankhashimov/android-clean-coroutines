@@ -2,8 +2,9 @@ package com.mirlan.sandbox
 
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDexApplication
-import com.mirlan.sandbox.BuildConfig
+import com.mirlan.sandbox.core.mainModule
 import com.mirlan.sandbox.di.appModule
 import com.mirlan.sandbox.utils.Settings
 import org.koin.android.ext.koin.androidContext
@@ -19,7 +20,7 @@ class App : MultiDexApplication() {
         }
         startKoin {
             androidContext(this@App)
-            modules(appModule)
+            modules(appModule, mainModule)
         }
     }
 

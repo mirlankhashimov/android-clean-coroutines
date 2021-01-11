@@ -1,38 +1,51 @@
 package com.mirlan.sandbox
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import com.mirlan.sandbox.utils.hide
-import com.mirlan.sandbox.utils.show
-import kotlinx.android.synthetic.main.activity_main.*
+import com.mirlan.sandbox.core.BaseFragment
+import com.mirlan.sandbox.utils.Constants.CR_APP_HOLDER
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
+import ru.terrakok.cicerone.NavigatorHolder
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
 
-class SingleActivity : AppCompatActivity() {
+class SingleActivity : AppCompatActivity(R.layout.activity_main) {
+
+    private val navigatorHolder: NavigatorHolder by inject(named(CR_APP_HOLDER))
+    private val navigator = SupportAppNavigator(this, R.id.main_container)
+
+    val currentFragment get() = supportFragmentManager.findFragmentById(R.id.main_container)
+    private val viewModel: AppViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setUpNavigation()
-        visibilityNavElements(findNavController(R.id.my_nav_host_fragment))
+        viewModel.start()
     }
 
-    private fun setUpNavigation() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment?
-        navHostFragment?.let {
-            NavigationUI.setupWithNavController(bottom_navigation_view, it.navController)
+    override fun onResume() {
+        super.onResume()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
         }
+        return super.onOptionsItemSelected(item)
     }
 
-    private fun visibilityNavElements(navController: NavController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.screen_detail -> bottom_navigation_view.hide()
-                else -> bottom_navigation_view?.show()
-            }
+    override fun onBackPressed() {
+        if (currentFragment is BaseFragment) {
+            (currentFragment as? BaseFragment)?.onBackPressed()
+        } else {
+            throw Exception("${currentFragment!!::class.java.canonicalName} is not child of BaseFragment")
         }
     }
 }

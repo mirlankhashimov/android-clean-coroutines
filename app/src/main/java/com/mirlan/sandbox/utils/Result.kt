@@ -1,44 +1,28 @@
 package com.mirlan.sandbox.utils
 
-import android.content.Context
-import android.text.Layout
-import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.core.view.children
-import com.mirlan.sandbox.R
+import java.lang.Exception
 
-class Result @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
-    fun setResult(result: Result<Any>) {
-        children.forEach(View::hide)
-        val id = getId(result)
-        findViewById<View?>(id)?.show()?.run { return }
-        val newView = createView(result)
-        newView.id = id
-        val match = ViewGroup.LayoutParams.MATCH_PARENT
-        val params = LayoutParams(match, match)
-        addView(newView, params)
-    }
-    private fun getId(result: Result<Any>): Int {
-        when (result) {
-            is Result.Success -> children.first().id
-            is Result.Error -> R.id.error
-            is Result.Loading -> R.id.loading
-            is Result.Empty -> R.id.empty }
-    }
-    private fun createView(result: Result<Any>): View = when (result) {
-        is Result.Success -> View(context)
-        is Result.Error -> inflate(R.layout.layout_error)
-        is Result.Loading -> Loading(context)//custom  view
-        is Result.Empty -> Empty(context)}//custonm view }
+sealed class Result<out T> {
+    data class Success<out T>(val data: T) : Result<T>()
+    data class Error(val e: Exception) : Result<Nothing>()
+    object Loading : Result<Nothing>()
+    object Empty : Result<Nothing>()
+}
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        setResult(if (isInEditMode) Result.Success(Unit) else Result.Loading)
+fun <T> Result<T>.onSuccess(block: (T) -> Unit) {
+    if (this is Result.Success) block(this.data) else Unit
+}
+
+val <T> Result<T>.data: T? get() = (this as? Result.Success<T>)?.data
+
+fun <T, R> Result<T>.map(transform: (T) -> R): Result<R> {
+    return when (this) {
+        is Result.Success -> Result.Success(transform(data)).run {
+            if (data is List<*> && data.isNullOrEmpty()) Result.Empty
+            else this
+        }
+        is Result.Error -> this
+        is Result.Loading -> Result.Loading
+        is Result.Empty -> Result.Empty
     }
 }

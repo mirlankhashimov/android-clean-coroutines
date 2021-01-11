@@ -9,26 +9,37 @@ import android.text.Html
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import com.mirlan.sandbox.R
 import com.mirlan.sandbox.core.BaseFragment
+import com.mirlan.sandbox.core.navigation.AMRouter
 import com.mirlan.sandbox.data.vo.Status
 import com.mirlan.sandbox.databinding.FragmentDetailBinding
 import com.mirlan.sandbox.domain.entity.Salon
 import com.mirlan.sandbox.presentation.home.HomeFragment.Companion.RECOMMENDATION_ID
 import com.mirlan.sandbox.presentation.home.HomeViewModel
 import com.mirlan.sandbox.utils.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.core.inject
+import org.koin.core.qualifier.named
+import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class DetailFragment : BaseFragment(R.layout.fragment_detail) {
+
+    object DetailScreen : SupportAppScreen() {
+        override fun getFragment(): Fragment? {
+            return DetailFragment()
+        }
+    }
 
     private val viewModel: HomeViewModel by sharedViewModel()
     private val galleryAdapter by lazy { GalleryAdapter(childFragmentManager) }
     private val masterAdapter by lazy { MasterAdapter() }
     private val serviceAdapter by lazy { ServiceAdapter() }
     private val binding by viewBinding(FragmentDetailBinding::bind)
+    private val router: AMRouter by inject(named(Constants.CR_APP_ROUTER))
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +52,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
     private fun setClicks() {
         binding.salonToolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
+            router.exit()
         }
     }
 
@@ -68,20 +79,21 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
         binding.salonCollapsingToolbar.title = salon?.firm?.name
         galleryAdapter.notifyDataSetChanged()
         salon?.firm.let { firm ->
-            binding.salonName.text = firm?.name
-            binding.salonType.text = firm?.type
-            binding.salonAddress.text = firm?.address
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                binding.salonAddress.text =
-                    Html.fromHtml(firm?.address, Html.FROM_HTML_MODE_COMPACT);
-            } else {
-                binding.salonAddress.text = Html.fromHtml(firm?.address);
+            with(binding) {
+                salonName.text = firm?.name
+                salonType.text = firm?.type
+                salonAddress.text = firm?.address
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    salonAddress.text = Html.fromHtml(firm?.address, Html.FROM_HTML_MODE_COMPACT);
+                } else {
+                    salonAddress.text = Html.fromHtml(firm?.address);
+                }
+                salonRating.text = firm?.checkRating.toString()
+                salonReviewCount.text = "${firm?.reviewCount} voted"
+                salonWorkTime.text = firm?.workStartTime + " - " + firm?.workEndTime
+                salonDetailWorkPhone1.show(firm?.phoneNumbers?.firstOrNull())
+                firm?.instagramProfile?.let { salonDetailInstagram.link("instagram", it) }
             }
-            binding.salonRating.text = firm?.checkRating.toString()
-            binding.salonReviewCount.text = "${firm?.reviewCount} voted"
-            binding.salonWorkTime.text = firm?.workStartTime + " - " + firm?.workEndTime
-            binding.salonDetailWorkPhone1.show(firm?.phoneNumbers?.firstOrNull())
-            firm?.instagramProfile?.let { binding.salonDetailInstagram.link("instagram", it) }
         }
         salon?.services?.let { services ->
             if (services.isNotEmpty()) {
@@ -100,8 +112,10 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     }
 
     private fun setupGallery() {
-        binding.salonGallery.adapter = galleryAdapter
-        binding.beautySalonGalleryIndicator.setupWithViewPager(binding.salonGallery)
+        with(binding) {
+            salonGallery.adapter = galleryAdapter
+            beautySalonGalleryIndicator.setupWithViewPager(salonGallery)
+        }
     }
 
     private fun setupCollapsingToolbar() {
@@ -125,5 +139,9 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             binding.salonToolbar.setTitleTextColor(titleColor)
             previousIsBlack = isBlack
         })
+    }
+
+    override fun onBackPressed() {
+        TODO("Not yet implemented")
     }
 }

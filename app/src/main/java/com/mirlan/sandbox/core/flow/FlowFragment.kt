@@ -1,8 +1,10 @@
-package com.mirlan.sandbox.core
+package com.mirlan.sandbox.core.flow
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.mirlan.sandbox.R
+import com.mirlan.sandbox.core.BaseFragment
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
@@ -12,21 +14,22 @@ import java.lang.Exception
 abstract class FlowFragment(layoutRes: Int) : BaseFragment(layoutRes) {
 
     val currentFragment get() = childFragmentManager.findFragmentById(R.id.container)
-    abstract val navigatorHolder: NavigatorHolder
-    protected open val navigator: Navigator by lazy {
-        object : SupportAppNavigator(requireActivity(), childFragmentManager, R.id.container) {
-            override fun activityBack() {
-                onExit()
-            }
 
-            override fun setupFragmentTransaction(
-                command: Command,
-                currentFragment: Fragment?,
-                nextFragment: Fragment?,
-                fragmentTransaction: FragmentTransaction
-            ) {
-                fragmentTransaction.setReorderingAllowed(true)
-            }
+    abstract override val viewModel: FlowViewModel
+
+    protected open val navigator: Navigator by lazy {
+        FlowSupportAppNavigator(
+            requireActivity(),
+            childFragmentManager,
+            R.id.container,
+            this::onExit
+        )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.childRouter.exit()
         }
     }
 

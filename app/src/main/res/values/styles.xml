@@ -22,4 +22,10 @@
         <item name="android:textSize">32sp</item>
         <item name="android:textColor">@color/colorBlack</item>
     </style>
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background</item>
+    </style>
 </resources>

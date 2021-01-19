@@ -2,6 +2,7 @@ package com.mirlan.sandbox.data.service
 
 import com.mirlan.sandbox.domain.entity.Data
 import com.mirlan.sandbox.domain.entity.Salon
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 

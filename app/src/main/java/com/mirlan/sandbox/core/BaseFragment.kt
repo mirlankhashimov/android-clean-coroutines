@@ -4,16 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mirlan.sandbox.R
+import com.mirlan.sandbox.core.flow.FlowFragment
+import com.mirlan.sandbox.core.navigation.Screens
 import com.mirlan.sandbox.utils.*
+import org.koin.android.ext.android.get
+import ru.terrakok.cicerone.android.support.SupportAppScreen
+import timber.log.Timber
 
-abstract class BaseFragment(@LayoutRes val layoutRes: Int) : Fragment(layoutRes) {
+abstract class BaseFragment(val layoutRes: Int) : BottomSheetDialogFragment() {
 
     abstract val viewModel: BaseViewModel
 
@@ -46,4 +52,10 @@ abstract class BaseFragment(@LayoutRes val layoutRes: Int) : Fragment(layoutRes)
 
     fun <T> LiveData<T>.observe(on: (T) -> Unit) = observe(viewLifecycleOwner, Observer(on))
 
+    fun showDialog() {
+        val submitFlowFragment =
+            (get<Screens>().bottomDialog() as? SupportAppScreen)?.fragment as? BaseFragment
+        submitFlowFragment?.sharedElementEnterTransition = BottomSheetSharedTransition()
+        submitFlowFragment?.show(childFragmentManager, submitFlowFragment::javaClass.name)
+    }
 }

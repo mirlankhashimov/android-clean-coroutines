@@ -1,26 +1,20 @@
 package com.mirlan.sandbox.core.flow
 
-import android.app.Activity
-import android.os.Handler
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import kotlinx.coroutines.GlobalScope
-import org.koin.core.context.GlobalContext
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
+import timber.log.Timber
 
 open class FlowSupportAppNavigator(
     activity: FragmentActivity,
-    fm: FragmentManager,
+    private val fm: FragmentManager,
     @IdRes containerId: Int,
     val onExit: () -> Unit
 ) : SupportAppNavigator(activity, fm, containerId) {
-    override fun applyCommands(commands: Array<out Command>) {
-        Handler().post { super.applyCommands(commands) }
-    }
 
     override fun activityBack() {
         onExit()

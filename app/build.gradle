@@ -38,6 +38,7 @@ android {
 
 dependencies {
     def lif_version = "2.2.0"
+    def koin_version = "2.1.6"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -55,13 +56,16 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lif_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lif_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lif_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lif_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lif_version"
 
     //utils
-    implementation "org.koin:koin-android:2.1.6"
     implementation 'org.koin:koin-androidx-viewmodel:2.1.6'
     implementation "com.jakewharton.timber:timber:4.7.1"
+
+    //di
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-ext:$koin_version"
 
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -88,4 +92,7 @@ dependencies {
     //navigation
     implementation "ru.terrakok.cicerone:cicerone:5.1.1"
 
+    //ktx
+    implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
 }

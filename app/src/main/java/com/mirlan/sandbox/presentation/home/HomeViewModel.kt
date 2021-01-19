@@ -8,6 +8,11 @@ import com.mirlan.sandbox.domain.entity.Data
 import com.mirlan.sandbox.domain.entity.Salon
 import com.mirlan.sandbox.domain.interactor.GetSalonUseCase
 import com.mirlan.sandbox.domain.interactor.GetSalonsUseCase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -21,15 +26,21 @@ class HomeViewModel(
     private val _salon = MutableLiveData<Resource<BaseResponse<Salon>>>()
     val salon: LiveData<Resource<BaseResponse<Salon>>> = _salon
 
+    private val _uiState = MutableStateFlow<Resource<BaseResponse<Data>>>(Resource.loading())
+    val uiState: StateFlow<Resource<BaseResponse<Data>>> = _uiState
+
     init {
         load()
     }
 
     private fun load() {
-        //_salons.value = Resource.loading()
         viewModelScope.launch {
-            //_salons.value = Resource.success(getSalonsUseCase.getSalons())
+            delay(1000)
+            getSalonsUseCase.getSalons().collect {
+                _uiState.value = Resource.success(it)
+            }
         }
+
     }
 
     fun loadSalon(id: Int) {
@@ -38,8 +49,13 @@ class HomeViewModel(
             //_salon.value = Resource.success(getSalonUseCase.getSalon(id))
         }
     }
-    fun openDetail(){
-        router.navigateTo(screens.detail())
+
+    fun openDetail() {
+        //router.navigateTo(screens.detail(1))
+    }
+
+    fun exit2() {
+        router.backTo(screens.home())
     }
 
 }

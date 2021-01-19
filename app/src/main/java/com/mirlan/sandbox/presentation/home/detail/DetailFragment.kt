@@ -8,38 +8,33 @@ import android.os.Bundle
 import android.text.Html
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import com.mirlan.sandbox.R
 import com.mirlan.sandbox.core.BaseFragment
-import com.mirlan.sandbox.core.navigation.AMRouter
 import com.mirlan.sandbox.data.vo.Status
 import com.mirlan.sandbox.databinding.FragmentDetailBinding
 import com.mirlan.sandbox.domain.entity.Salon
 import com.mirlan.sandbox.presentation.home.HomeFragment.Companion.RECOMMENDATION_ID
 import com.mirlan.sandbox.presentation.home.HomeViewModel
 import com.mirlan.sandbox.utils.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.core.inject
-import org.koin.core.qualifier.named
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
-    object DetailScreen : SupportAppScreen() {
-        override fun getFragment(): Fragment? {
-            return DetailFragment()
+    class DetailScreen(private val id: Int) : SupportAppScreen() {
+        override fun getFragment() = DetailFragment().apply {
+            arguments = bundleOf(RECOMMENDATION_ID to id)
         }
     }
 
-    private val viewModel: HomeViewModel by sharedViewModel()
+    override val viewModel: HomeViewModel by sharedViewModel()
     private val galleryAdapter by lazy { GalleryAdapter(childFragmentManager) }
     private val masterAdapter by lazy { MasterAdapter() }
     private val serviceAdapter by lazy { ServiceAdapter() }
     private val binding by viewBinding(FragmentDetailBinding::bind)
-    private val router: AMRouter by inject(named(Constants.CR_APP_ROUTER))
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,13 +42,6 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
         setupCollapsingToolbar()
         setupGallery()
         observeSalon()
-        setClicks()
-    }
-
-    private fun setClicks() {
-        binding.salonToolbar.setNavigationOnClickListener {
-            router.exit()
-        }
     }
 
     private fun observeSalon() {
@@ -139,9 +127,5 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             binding.salonToolbar.setTitleTextColor(titleColor)
             previousIsBlack = isBlack
         })
-    }
-
-    override fun onBackPressed() {
-        TODO("Not yet implemented")
     }
 }

@@ -2,14 +2,11 @@ package com.mirlan.sandbox.core.flow
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.activity.addCallback
 import com.mirlan.sandbox.R
 import com.mirlan.sandbox.core.BaseFragment
 import ru.terrakok.cicerone.Navigator
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
-import ru.terrakok.cicerone.commands.Command
-import java.lang.Exception
+import timber.log.Timber
 
 abstract class FlowFragment(layoutRes: Int) : BaseFragment(layoutRes) {
 
@@ -33,22 +30,35 @@ abstract class FlowFragment(layoutRes: Int) : BaseFragment(layoutRes) {
         }
     }
 
+    override fun setRouter(childFragment: Fragment) {
+        (childFragment as? BaseFragment)?.viewModel?.apply {
+            router = viewModel.childRouter
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        navigatorHolder.setNavigator(navigator)
+        viewModel.navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
-        navigatorHolder.removeNavigator()
         super.onPause()
+        viewModel.navigatorHolder.removeNavigator()
+        Timber.e("${fragmentManager?.isDestroyed }adfasdf")
     }
 
-    abstract fun onExit()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.e("${fragmentManager?.isDestroyed }adfasdfasdfasd")
+    }
 
-    override fun onBackPressed() {
-        if (currentFragment is BaseFragment)
-            (currentFragment as BaseFragment).onBackPressed()
-        else throw Exception("${currentFragment!!::class.java.canonicalName} is not child of BaseFragment")
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.e("${fragmentManager?.isDestroyed }adfasdfadfasdfasdfasdf")
+    }
+
+    open fun onExit() {
+        viewModel.router.exit()
     }
 
 }

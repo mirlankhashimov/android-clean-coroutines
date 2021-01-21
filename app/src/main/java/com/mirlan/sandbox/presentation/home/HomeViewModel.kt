@@ -36,9 +36,9 @@ class HomeViewModel(
     private fun load() {
         viewModelScope.launch {
             delay(1000)
-            getSalonsUseCase.getSalons().collect {
-                _uiState.value = Resource.success(it)
-            }
+            //getSalonsUseCase.getSalons().collect {
+            //    _uiState.value = Resource.success(it)
+            //}
         }
 
     }

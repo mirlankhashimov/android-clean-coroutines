@@ -6,18 +6,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.mirlan.sandbox.R
 import com.mirlan.sandbox.core.BaseFragment
+import com.mirlan.sandbox.core.DialogInterface
+import com.mirlan.sandbox.data.service.BaseResponse
 import com.mirlan.sandbox.data.vo.Resource
 import com.mirlan.sandbox.data.vo.Status
 import com.mirlan.sandbox.databinding.FragmentHomeBinding
+import com.mirlan.sandbox.domain.entity.Data
 import com.mirlan.sandbox.domain.entity.RecommendedFirm
-import com.mirlan.sandbox.domain.entity.Salon
 import com.mirlan.sandbox.utils.*
 import kotlinx.android.synthetic.main.fragment_home.progressBar
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 import timber.log.Timber
@@ -58,8 +57,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
         binding.button.setSafeOnClickListener {
             Timber.e("adfasdf")
-            showDialog()
+            showBottomDialog()
             //viewModel.openDetail()
+        }
+        binding.button2.setSafeOnClickListener {
+            showDialog("title", "confirm", "cancel", this::confirm)
         }
         launch(viewModel.uiState) {
             handleState(it)
@@ -67,11 +69,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     }
 
-    private fun handleState(resource: Resource<List<Salon>>) {
+    private fun handleState(resource: Resource<BaseResponse<Data>>) {
         when (resource.status) {
             Status.SUCCESS -> {
             }
         }
+    }
+
+    private fun confirm() {
+        Toast.makeText(requireContext(), "clicked", Toast.LENGTH_LONG).show()
     }
 
     override fun onResume() {

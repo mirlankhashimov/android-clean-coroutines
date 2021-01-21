@@ -1,6 +1,8 @@
 package com.mirlan.sandbox.core.navigation
 
+import com.mirlan.sandbox.core.DialogInterface
 import com.mirlan.sandbox.core.main.MainFlowFragment
+import com.mirlan.sandbox.presentation.DialogConfirmation
 import com.mirlan.sandbox.presentation.bottom_sheet.BottomDialogFragment
 import com.mirlan.sandbox.presentation.bottom_sheet.FullScreenFragment
 import com.mirlan.sandbox.presentation.home.HomeFragment
@@ -29,4 +31,6 @@ class ScreenImpl : Screens {
 
     override fun bottomDialog(): Screen = BottomDialogFragment.BottomDialogScreen
     override fun bottomFullDialog(): Screen = FullScreenFragment.FullDialogScreen
+    override fun dialog(title: String, confirmTitle: String, cancelTitle: String): Screen =
+        DialogConfirmation.DialogScreen(title, confirmTitle, cancelTitle)
 }

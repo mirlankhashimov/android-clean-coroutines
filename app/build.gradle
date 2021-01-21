@@ -85,9 +85,9 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.6"
 
     //coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.7'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
 
     //navigation
     implementation "ru.terrakok.cicerone:cicerone:5.1.1"

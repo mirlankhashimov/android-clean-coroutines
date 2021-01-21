@@ -1,5 +1,6 @@
 package com.mirlan.sandbox.core.navigation
 
+import com.mirlan.sandbox.core.DialogInterface
 import ru.terrakok.cicerone.Screen
 
 interface Screens {
@@ -19,4 +20,9 @@ interface Screens {
 
     fun bottomDialog(): Screen
     fun bottomFullDialog(): Screen
+    fun dialog(
+        title: String,
+        confirmTitle: String,
+        cancelTitle: String
+    ): Screen
 }

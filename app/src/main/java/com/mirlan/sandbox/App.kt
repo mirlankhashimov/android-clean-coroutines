@@ -7,6 +7,7 @@ import androidx.multidex.MultiDexApplication
 import com.mirlan.sandbox.core.mainModule
 import com.mirlan.sandbox.di.appModule
 import com.mirlan.sandbox.utils.Settings
+import leakcanary.LeakCanary
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber

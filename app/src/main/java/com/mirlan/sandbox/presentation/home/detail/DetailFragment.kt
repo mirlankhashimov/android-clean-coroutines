@@ -35,10 +35,11 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
     private val masterAdapter by lazy { MasterAdapter() }
     private val serviceAdapter by lazy { ServiceAdapter() }
     private val binding by viewBinding(FragmentDetailBinding::bind)
+    private val imageId by argument(RECOMMENDATION_ID, 0)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getInt(RECOMMENDATION_ID)?.let { id -> viewModel.loadSalon(id) }
+        viewModel.loadSalon(imageId)
         setupCollapsingToolbar()
         setupGallery()
         observeSalon()

@@ -44,7 +44,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.albumRv.adapter = albumAdapter
+        //binding.albumRv.adapter = albumAdapter
         observe(viewModel.salons) { response ->
             when (response.status) {
                 Status.LOADING -> progressBar.show()
@@ -61,7 +61,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             //viewModel.openDetail()
         }
         binding.button2.setSafeOnClickListener {
-            showDialog("title", "confirm", "cancel", this::confirm)
+            showDialog("title", "confirm", "cancel")
         }
         launch(viewModel.uiState) {
             handleState(it)

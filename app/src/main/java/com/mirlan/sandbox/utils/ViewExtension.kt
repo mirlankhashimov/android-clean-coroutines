@@ -2,9 +2,13 @@ package com.mirlan.sandbox.utils
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.text.Html
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.method.LinkMovementMethod
+import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
@@ -13,6 +17,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.snackbar.Snackbar
 import com.mirlan.sandbox.data.vo.Resource
 import kz.atf24.bank.custom.clicklistener.SafeClickListener
 
@@ -185,4 +190,16 @@ fun TextView.show(content: String?) {
         text = content
         visibility = View.VISIBLE
     }
+}
+fun View.showSnackMessage(message: String) {
+    val ssb = SpannableStringBuilder().apply {
+        append(message)
+        setSpan(
+            ForegroundColorSpan(Color.WHITE),
+            0,
+            message.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+    Snackbar.make(this, ssb, Snackbar.LENGTH_LONG).show()
 }

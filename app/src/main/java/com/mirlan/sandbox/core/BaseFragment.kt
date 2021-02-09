@@ -61,7 +61,7 @@ abstract class BaseFragment(val layoutRes: Int) : BottomSheetDialogFragment() {
         title: String,
         confirmTitle: String,
         cancelTitle: String,
-        onClick: (() -> Unit)
+        onClick: (() -> Unit)? = null
     ) {
         val submitFlowFragment =
             (get<Screens>().dialog(

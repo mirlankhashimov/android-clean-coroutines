@@ -16,9 +16,12 @@ import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.mirlan.sandbox.data.vo.Resource
+import kotlinx.coroutines.*
 import kz.atf24.bank.custom.clicklistener.SafeClickListener
 
 const val DIVIDE_SCREEN_BY_HORIZONTAL_TO_THREE = 3F
@@ -202,4 +205,14 @@ fun View.showSnackMessage(message: String) {
         )
     }
     Snackbar.make(this, ssb, Snackbar.LENGTH_LONG).show()
+}
+fun View.delayOnLifecycle(
+    durationInMillis: Long,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+    block: () -> Unit
+): Job? = findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
+    lifecycleOwner.lifecycle.coroutineScope.launch(dispatcher){
+        delay(durationInMillis)
+        block
+    }
 }

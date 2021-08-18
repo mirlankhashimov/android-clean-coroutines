@@ -66,6 +66,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         launch(viewModel.uiState) {
             handleState(it)
         }
+        binding.albumRv.delayOnLifecycle(500) {
+
+        }
 
     }
 
